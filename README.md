@@ -36,10 +36,10 @@ pip install -r requirements.txt
 회원번호 1234567890  
 비밀번호 000000  
 동탄 -> 동대구, 2022년 01월 17일 오전 8시 이후 기차  
-검색 결과 중 상위 2개가 예약 가능할 경우 예약
+검색 결과 중 상위 5개가 예약 가능할 경우 예약
 
 ```cmd
-python quickstart.py --user 1234567890 --psw 000000 --dpt 동탄 --arr 동대구 --dt 20220117 --tm 08
+python quickstart.py --user 1234567890 --psw 000000 --dpt 동탄 --arr 동대구 --dt 20220117 --tm 08 --num 5
 ```
 
 **Optional**  

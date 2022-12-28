@@ -13,8 +13,11 @@ from selenium.common.exceptions import ElementClickInterceptedException, StaleEl
 from srt_reservation.exceptions import InvalidStationNameError, InvalidDateError, InvalidDateFormatError, InvalidTimeFormatError
 from srt_reservation.validation import station_list
 
-chromedriver_path = r'C:\workspace\chromedriver.exe'
+from twilio.rest import Client
+from dotenv import load_dotenv
 
+chromedriver_path = r'C:\workspace\chromedriver.exe'
+load_dotenv()
 class SRT:
     def __init__(self, dpt_stn, arr_stn, dpt_dt, dpt_tm, num_trains_to_check=2, want_reserve=False):
         """
@@ -39,6 +42,10 @@ class SRT:
 
         self.is_booked = False  # 예약 완료 되었는지 확인용
         self.cnt_refresh = 0  # 새로고침 회수 기록
+        
+        self.account_sid = os.environ["ACCOUNT_SID"]
+        self.auth_token = os.environ["AUTH_TOKEN"]
+        self.client = Client(self.account_sid, self.account_sid)
 
         self.check_input()
 
@@ -135,6 +142,13 @@ class SRT:
             if self.driver.find_elements(By.ID, 'isFalseGotoMain'):
                 self.is_booked = True
                 print("예약 성공")
+                # 메세지 전송
+                message = self.client.messages.create(
+                    to=os.environ["TO_NUMBER"],
+                    from_=os.environ["TWILIO_PHONE_NUM"],
+                    body="[예약성공] 15분 내로 결제해주세요!"
+                    )
+                print(message.sid)
                 return self.driver
             else:
                 print("잔여석 없음. 다시 검색")
