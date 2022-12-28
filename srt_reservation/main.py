@@ -45,7 +45,7 @@ class SRT:
         
         self.account_sid = os.environ["ACCOUNT_SID"]
         self.auth_token = os.environ["AUTH_TOKEN"]
-        self.client = Client(self.account_sid, self.account_sid)
+        self.client = Client(self.account_sid, self.auth_token)
 
         self.check_input()
 
