@@ -129,11 +129,11 @@ class SRT:
             # Error handling in case that click does not work
             try:
                 self.driver.find_element(By.CSS_SELECTOR,
-                                         f"#result-form > fieldset > div.tbl_wrap.th_thead > table > tbody > tr:nth-child({i}) > td:nth-child(7) > a").click()
+                                        f"#result-form > fieldset > div.tbl_wrap.th_thead > table > tbody > tr:nth-child({i}) > td:nth-child(7) > a").click()
             except ElementClickInterceptedException as err:
                 print(err)
                 self.driver.find_element(By.CSS_SELECTOR,
-                                         f"#result-form > fieldset > div.tbl_wrap.th_thead > table > tbody > tr:nth-child({i}) > td:nth-child(7) > a").send_keys(
+                                        f"#result-form > fieldset > div.tbl_wrap.th_thead > table > tbody > tr:nth-child({i}) > td:nth-child(7) > a").send_keys(
                     Keys.ENTER)
             finally:
                 self.driver.implicitly_wait(3)
@@ -167,7 +167,7 @@ class SRT:
         if "신청하기" in reservation:
             print("예약 대기 완료")
             self.driver.find_element(By.CSS_SELECTOR,
-                                     f"#result-form > fieldset > div.tbl_wrap.th_thead > table > tbody > tr:nth-child({i}) > td:nth-child(8) > a").click()
+                                    f"#result-form > fieldset > div.tbl_wrap.th_thead > table > tbody > tr:nth-child({i}) > td:nth-child(8) > a").click()
             self.is_booked = True
             return self.is_booked
 
