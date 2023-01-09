@@ -13,6 +13,9 @@ def parse_cli_args():
 
     parser.add_argument("--num", help="no of trains to check", type=int, metavar="2", default=2)
     parser.add_argument("--reserve", help="Reserve or not", type=bool, metavar="2", default=False)
+    
+    # sms
+    parser.add_argument('--sms', action=argparse.BooleanOptionalAction)
 
     args = parser.parse_args()
 

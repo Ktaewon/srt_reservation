@@ -2,6 +2,7 @@
 
 기존 기능에 문자전송 로직을 추가하였습니다.
 - twilio 가입 후 관련 정보 .env파일에 생성하면 작동
+- --sms argument 추가
 
 매진된 SRT 표의 예매를 도와주는 파이썬 프로그램입니다.  
 원하는 표가 나올 때 까지 새로고침하여 예약을 시도합니다.
@@ -45,10 +46,21 @@ python quickstart.py --user 1234567890 --psw 000000 --dpt 동탄 --arr 동대구
 ```
 
 **Optional**  
-예약대기 사용 및 검색 결과 상위 3개의 예약 가능 여부 확인
+1. 예약대기 사용 및 검색 결과 상위 3개의 예약 가능 여부 확인
 ```cmd
 python quickstart.py --user 1234567890 --psw 000000 --dpt 동탄 --arr 동대구 --dt 20220117 --tm 08 --num 3 --reserve True
 ```
+
+2. 예약 완료시 sms 전송 기능 ON/OFF
+
+    * on
+        ```cmd
+        python quickstart.py --user 1234567890 --psw 000000 --dpt 동탄 --arr 동대구 --dt 20220117 --tm 08 --sms
+        ```
+    * off
+         ```cmd
+        python quickstart.py --user 1234567890 --psw 000000 --dpt 동탄 --arr 동대구 --dt 20220117 --tm 08 --no-sms
+        ```
 
 **실행 결과**
 
