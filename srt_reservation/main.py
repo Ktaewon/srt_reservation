@@ -15,6 +15,7 @@ from srt_reservation.validation import station_list
 
 from twilio.rest import Client
 from dotenv import load_dotenv
+from srt_reservation.util import play_notification_sound
 
 chromedriver_path = r'C:\workspace\chromedriver.exe'
 load_dotenv()
@@ -119,7 +120,7 @@ class SRT:
         print(f"예약 대기 사용: {self.want_reserve}")
 
         self.driver.find_element(By.XPATH, "//input[@value='조회하기']").click()
-        self.driver.implicitly_wait(5)
+        self.driver.implicitly_wait(15)
         time.sleep(1)
 
     def book_ticket(self, standard_seat, i):
@@ -152,6 +153,8 @@ class SRT:
                         body="[예약성공] 15분 내로 결제해주세요!"
                         )
                     print(message.sid)
+                # 알림음 재생
+                play_notification_sound()
                 return self.driver
             else:
                 print("잔여석 없음. 다시 검색")

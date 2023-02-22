@@ -1,4 +1,6 @@
 import argparse
+import sys
+import subprocess
 
 def parse_cli_args():
 
@@ -20,3 +22,15 @@ def parse_cli_args():
     args = parser.parse_args()
 
     return args
+
+def play_notification_sound():
+    if sys.platform == "win32":
+        # Windows
+        import winsound
+        duration = 1000  # milliseconds
+        frequency = 440  # Hz
+        winsound.Beep(frequency, duration)
+    else:
+        # Mac
+        sound_file = "/System/Library/Sounds/Ping.aiff"
+        subprocess.call(["afplay", sound_file])
