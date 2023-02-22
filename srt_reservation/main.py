@@ -154,7 +154,8 @@ class SRT:
                         )
                     print(message.sid)
                 # 알림음 재생
-                play_notification_sound()
+                sound_file = os.path.join(os.getcwd(), 'notification.wav')
+                play_notification_sound(sound_file)
                 return self.driver
             else:
                 print("잔여석 없음. 다시 검색")
