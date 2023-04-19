@@ -145,6 +145,9 @@ class SRT:
             if self.driver.find_elements(By.ID, 'isFalseGotoMain'):
                 self.is_booked = True
                 print("예약 성공")
+                # 알림음 재생
+                sound_file = os.path.join(os.getcwd(), 'notification.wav')
+                play_notification_sound(sound_file)
                 # 메세지 전송
                 if self.sms_service and self.sms_service is not None:
                     message = self.client.messages.create(
@@ -153,9 +156,6 @@ class SRT:
                         body="[예약성공] 15분 내로 결제해주세요!"
                         )
                     print(message.sid)
-                # 알림음 재생
-                sound_file = os.path.join(os.getcwd(), 'notification.wav')
-                play_notification_sound(sound_file)
                 return self.driver
             else:
                 print("잔여석 없음. 다시 검색")
