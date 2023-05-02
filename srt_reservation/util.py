@@ -1,6 +1,11 @@
 import argparse
 import sys
 import subprocess
+import pyautogui
+import random
+
+screenWidth, screenHeight = pyautogui.size()
+
 
 def parse_cli_args():
 
@@ -18,6 +23,9 @@ def parse_cli_args():
     
     # sms
     parser.add_argument('--sms', action=argparse.BooleanOptionalAction)
+    
+    # screen saver disable
+    parser.add_argument('--scr', action=argparse.BooleanOptionalAction, default=True)
 
     args = parser.parse_args()
 
@@ -37,3 +45,11 @@ def play_notification_sound(sound_file = None):
         if sound_file == None:
             sound_file = "/System/Library/Sounds/Ping.aiff"
         subprocess.call(["afplay", sound_file])
+        
+def mouse_move():
+    ran_width = random.randint(1, screenWidth)
+    ran_height = random.randint(1, screenHeight)
+
+    #마우스를 2초동안 ran_width, ran_height 위치로 옮김
+    pyautogui.moveTo(ran_width, ran_height, 0.5)
+    #pyautogui.moveTo(50, 100, duration = 1) # move the mouse

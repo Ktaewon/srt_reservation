@@ -17,10 +17,12 @@ from twilio.rest import Client
 from dotenv import load_dotenv
 from srt_reservation.util import play_notification_sound
 
+from srt_reservation.util import mouse_move
+
 chromedriver_path = r'C:\workspace\chromedriver.exe'
 load_dotenv()
 class SRT:
-    def __init__(self, dpt_stn, arr_stn, dpt_dt, dpt_tm, num_trains_to_check=2, want_reserve=False, sms_service=False):
+    def __init__(self, dpt_stn, arr_stn, dpt_dt, dpt_tm, num_trains_to_check=2, want_reserve=False, sms_service=False, screen_saver_enable=True):
         """
         :param dpt_stn: SRT 출발역
         :param arr_stn: SRT 도착역
@@ -49,6 +51,8 @@ class SRT:
             self.account_sid = os.environ["ACCOUNT_SID"]
             self.auth_token = os.environ["AUTH_TOKEN"]
             self.client = Client(self.account_sid, self.auth_token)
+            
+        self.screen_saver_enable = screen_saver_enable
 
         self.check_input()
 
@@ -167,6 +171,8 @@ class SRT:
         self.driver.execute_script("arguments[0].click();", submit)
         self.cnt_refresh += 1
         print(f"새로고침 {self.cnt_refresh}회")
+        if self.screen_saver_enable == False:
+            mouse_move()
         self.driver.implicitly_wait(10)
         time.sleep(0.5)
 

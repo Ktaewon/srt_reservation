@@ -20,6 +20,8 @@ if __name__ == "__main__":
     
     # sms service
     sms_service = cli_args.sms
+    
+    screen_saver_enable = cli_args.scr
 
-    srt = SRT(dpt_stn, arr_stn, dpt_dt, dpt_tm, num_trains_to_check, want_reserve, sms_service)
+    srt = SRT(dpt_stn, arr_stn, dpt_dt, dpt_tm, num_trains_to_check, want_reserve, sms_service, screen_saver_enable)
     srt.run(login_id, login_psw)
