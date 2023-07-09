@@ -10,6 +10,9 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.select import Select
 from selenium.common.exceptions import ElementClickInterceptedException, StaleElementReferenceException, WebDriverException
 
+from selenium.webdriver.chrome.service import Service as ChromeService
+from selenium.webdriver.chrome.options import Options as ChromeOptions
+
 from srt_reservation.exceptions import InvalidStationNameError, InvalidDateError, InvalidDateFormatError, InvalidTimeFormatError
 from srt_reservation.validation import station_list
 
@@ -74,7 +77,8 @@ class SRT:
 
     def run_driver(self):
         try:
-            self.driver = webdriver.Chrome(executable_path=chromedriver_path)
+            service = ChromeService(executable_path=chromedriver_path)
+            self.driver = webdriver.Chrome(service=service)
         except WebDriverException:
             self.driver = webdriver.Chrome(ChromeDriverManager().install())
 

@@ -1,4 +1,4 @@
-selenium==3.141.0
+selenium==4.10.0
 webdriver_manager==3.2.2
 twilio==7.16.0
 python-dotenv==0.21.0
