@@ -80,7 +80,7 @@ class SRT:
             service = ChromeService(executable_path=chromedriver_path)
             self.driver = webdriver.Chrome(service=service)
         except WebDriverException:
-            self.driver = webdriver.Chrome(ChromeDriverManager().install())
+            self.driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
 
     def login(self):
         self.driver.get('https://etk.srail.co.kr/cmc/01/selectLoginForm.do')
