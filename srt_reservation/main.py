@@ -173,16 +173,20 @@ class SRT:
             if self.driver.find_elements(By.ID, 'isFalseGotoMain'):
                 self.is_booked = True
                 print("예약 성공")
+                dptTm = self.driver.find_element(By.CSS_SELECTOR, f"#list-form > fieldset > div:nth-child(4) > table > tbody > tr > td.dptTm").text
+                arrTm = self.driver.find_element(By.CSS_SELECTOR, f"#list-form > fieldset > div:nth-child(4) > table > tbody > tr > td:nth-child(7)").text
+                price = self.driver.find_element(By.CSS_SELECTOR, f"#list-form > fieldset > div:nth-child(6) > table > tbody > tr > td:nth-child(7)").text
                 # 알림음 재생
                 sound_file = os.path.join(os.getcwd(), 'notification.wav')
                 play_notification_sound(sound_file)
                 # 메세지 전송
-                asyncio.run(self.sendTelegramMsg(chat_id=self.tele_chat_id))
+                text = f"[예약성공] 15분 내로 결제해주세요!\n승차일: {self.dpt_dt}, 출발역: {self.dpt_stn}, 도착역: {self.arr_stn}\n출발시각: {dptTm}, 도착시간: {arrTm}\n영수금액: {price}원"
+                asyncio.run(self.sendTelegramMsg(chat_id = self.tele_chat_id, text = text))
                 if self.sms_service and self.sms_service is not None:
                     message = self.client.messages.create(
                         to=os.environ["TO_NUMBER"],
                         from_=os.environ["TWILIO_PHONE_NUM"],
-                        body="[예약성공] 15분 내로 결제해주세요!"
+                        body=text
                         )
                     print(message.sid)
                 return self.driver
@@ -240,9 +244,9 @@ class SRT:
         self.check_result()
         
         
-    async def sendTelegramMsg(self, chat_id):
+    async def sendTelegramMsg(self, chat_id, text = "[예약성공] 15분 내로 결제해주세요!"):
         if (self.bot != None):
-            await self.bot.sendMessage(chat_id = chat_id, text = "[예약성공] 15분 내로 결제해주세요!")
+            await self.bot.sendMessage(chat_id = chat_id, text = text)
 
 #
 # if __name__ == "__main__":
