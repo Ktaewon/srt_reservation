@@ -22,10 +22,13 @@ from srt_reservation.util import play_notification_sound
 
 from srt_reservation.util import mouse_move
 
+import telegram
+import asyncio
+
 chromedriver_path = r'C:\workspace\chromedriver.exe'
 load_dotenv()
 class SRT:
-    def __init__(self, dpt_stn, arr_stn, dpt_dt, dpt_tm, num_trains_to_check=2, want_reserve=False, sms_service=False, screen_saver_enable=True):
+    def __init__(self, dpt_stn, arr_stn, dpt_dt, dpt_tm, num_trains_to_check=2, want_reserve=False, sms_service=False, screen_saver_enable=True, tele_chat_id = -1, tele_token = ""):
         """
         :param dpt_stn: SRT 출발역
         :param arr_stn: SRT 도착역
@@ -56,6 +59,14 @@ class SRT:
             self.client = Client(self.account_sid, self.auth_token)
             
         self.screen_saver_enable = screen_saver_enable
+        
+        self.tele_chat_id = tele_chat_id
+        self.tele_token = tele_token
+        
+        if (tele_chat_id != -1 and tele_token != ""):
+            self.bot = telegram.Bot(token=tele_token)
+        else:
+            self.bot == None
 
         self.check_input()
 
@@ -148,6 +159,15 @@ class SRT:
                     Keys.ENTER)
             finally:
                 self.driver.implicitly_wait(3)
+            
+            try:
+                alert_result = self.driver.switch_to.alert
+                alert_result.accept()
+            except:
+                print(f"에러!! ")
+                pass
+            finally:
+                self.driver.implicitly_wait(3)
 
             # 예약이 성공하면
             if self.driver.find_elements(By.ID, 'isFalseGotoMain'):
@@ -157,6 +177,7 @@ class SRT:
                 sound_file = os.path.join(os.getcwd(), 'notification.wav')
                 play_notification_sound(sound_file)
                 # 메세지 전송
+                asyncio.run(self.sendTelegramMsg(chat_id=self.tele_chat_id))
                 if self.sms_service and self.sms_service is not None:
                     message = self.client.messages.create(
                         to=os.environ["TO_NUMBER"],
@@ -217,6 +238,11 @@ class SRT:
         self.login()
         self.go_search()
         self.check_result()
+        
+        
+    async def sendTelegramMsg(self, chat_id):
+        if (self.bot != None):
+            await self.bot.sendMessage(chat_id = chat_id, text = "[예약성공] 15분 내로 결제해주세요!")
 
 #
 # if __name__ == "__main__":

@@ -22,10 +22,14 @@ def parse_cli_args():
     parser.add_argument("--reserve", help="Reserve or not", type=bool, metavar="2", default=False)
     
     # sms
-    parser.add_argument('--sms', action=argparse.BooleanOptionalAction)
+    parser.add_argument('--sms', action=argparse.BooleanOptionalAction, default=False)
     
     # screen saver disable
     parser.add_argument('--scr', action=argparse.BooleanOptionalAction, default=True)
+    
+    # telegram
+    parser.add_argument("--tele_chat_id", help="telegram Chat Id", type=int, metavar="1", default=-1)
+    parser.add_argument("--tele_token", help="telegram Token", type=str, metavar="1", default="")
 
     args = parser.parse_args()
 
